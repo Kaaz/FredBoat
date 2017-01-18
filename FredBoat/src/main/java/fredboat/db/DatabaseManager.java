@@ -65,6 +65,9 @@ public class DatabaseManager {
 
             properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             properties.put("hibernate.connection.driver_class", "org.postgresql.Driver");
+            properties.put("hibernate.hbm2ddl.auto", "update");
+            properties.put("hibernate.show_sql", "true");
+            properties.put("hibernate.format_sql", "true");
 
             LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
             emfb.setDataSource(dataSource);
@@ -82,24 +85,6 @@ public class DatabaseManager {
             state = DatabaseState.FAILED;
             throw new RuntimeException("Failed starting database connection", ex);
         }
-    }
-
-    public static void initBotEntities(JDA jda){
-        EntityManager em = getEntityManager();
-
-        em.getTransaction().begin();
-
-        System.out.println(jda.getGuilds());
-
-        for (Guild guild : jda.getGuilds()) {
-            GuildConfig gc = em.find(GuildConfig.class, Long.parseLong(guild.getId()));
-            if (gc == null) {
-                gc = new GuildConfig();
-                em.persist(gc);
-            }
-        }
-
-        em.getTransaction().commit();
     }
 
     static EntityManager getEntityManager() {

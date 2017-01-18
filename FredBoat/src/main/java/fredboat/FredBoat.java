@@ -105,7 +105,7 @@ public abstract class FredBoat {
         Runtime.getRuntime().addShutdownHook(new Thread(ON_SHUTDOWN));
 
         I18n.start();
-
+log.debug("test");
         //Attach log adapter
         SimpleLog.addListener(new SimpleLogToSLF4JAdapter());
 
